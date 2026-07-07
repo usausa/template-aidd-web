@@ -5,9 +5,9 @@
 > AI 側の振る舞いは、`/`コマンド・skill・hook が呼ばれたときにそれぞれのファイルが駆動する。
 
 ## 📚 読む文書の使い分け
-- **AI が常時従う**: `CLAUDE.md`→`AGENTS.md` (規約) / `docs/architecture/*` (原則) / `docs/README.md` (寿命表)
+- **AI が常時従う**: `CLAUDE.md`→`AGENTS.md` (規約) / `docs/architecture/*` (原則) / `docs/README.md`(寿命表)
 - **AI は呼ばれた時だけ動く**: `.claude/commands`・`skills`・`agents`・`hooks`
-- **人が読む (この文書・`README`・`getting-started`)**: どの順で何を打つか
+- **人が読む (この文書・`README`)**: どの順で何を打つか
 
 ---
 
@@ -117,6 +117,6 @@
 ## 🔁 途中参加・別セッションからの再開
 
 - 新しいチャットでも `CLAUDE.md` (→ `AGENTS.md`・`docs/architecture/*`) は自動で効くので、規約・原則は引き継がれる。
-- まず現在地を掴む: `docs/README.md` (寿命表) と `docs/traceability/index.md` (対応表) を見る。
+- まず現在地を掴む: `docs/README.md`(寿命表) と `docs/traceability/index.md` (対応表) を見る。
 - 続きから: `/trace` で未整合・決定漏れを洗い出し、該当段階のコマンドを打つ。
 - このドキュメントフレームワークは**会話履歴を前提とした短い引き継ぎに依存しない**設計思想を採る。工程の状態は成果物ファイル (REQ/ADR/trace) に外部化されるため、履歴が無い新セッションでも現在地をファイルから復元できる。

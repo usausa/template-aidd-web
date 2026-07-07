@@ -32,8 +32,7 @@ switch ($Form) {
 # --- 2. PM: マーカーへ差分を挿入(-PM) / 除去(既定) ---
 $markers = @{
     'pm:readme-lifespan'    = 'docs/README.md'
-    'pm:guide-claude'       = '運用ガイド.md'
-    'pm:guide-docs'         = '運用ガイド.md'
+    'pm:guide-claude'       = 'README.md'
     'pm:workflow-iteration' = 'docs/guides/workflow.md'
     'pm:agents'             = 'AGENTS.md'
 }
@@ -71,4 +70,4 @@ Write-Host "次の手順:"
 Write-Host " 1. AGENTS.md の『スタック』節を $Form 用に記入。"
 Write-Host " 2. LINT/ビルド設定は superset(Settings.XamlStyler は MAUI 用)。実プロジェクトのテンプレで置換してよい。"
 Write-Host " 3. docs/architecture/README.md 等の未採用形態の記述は削ってよい。"
-Write-Host " 4. 詳細は docs/guides/getting-started.md、回し方は docs/guides/workflow.md。"
+Write-Host " 4. 始め方・使い方は README.md(入口。導入後は自プロジェクトの README に置換/削除可)。回し方の正は docs/guides/workflow.md、契約は docs/README.md。"
