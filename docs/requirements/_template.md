@@ -1,8 +1,8 @@
 ---
 id: REQ-NNNN
 title: <要求の要約>
-status: draft          # draft | accepted | superseded
-related: []            # 関連 DES / ADR
+status: draft          # draft | accepted | superseded | retired
+related: []            # 関連 ADR
 ---
 
 ## 目的 / 背景

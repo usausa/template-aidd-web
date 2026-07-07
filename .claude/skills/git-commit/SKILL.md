@@ -16,14 +16,14 @@ description: Git のコミットメッセージ / ブランチ命名 / ステー
 - `type/短い説明`(kebab-case)。例 `feat/inventory-adjust`、`fix/login-lock`。issue があれば `feat/123-inventory-adjust`。
 
 ## ステージング単位
-- **1 コミット = 1 つの意図**。意図が変わったら **コード + `docs/requirements`・`docs/design` を同じコミット**に含める(SDD 原則。意図と実装をズラさない)。
+- **1 コミット = 1 つの意図**。意図が変わったら **コード + `docs/requirements` を同じコミット**に含める(SDD 原則。意図と実装をズラさない)。
 - `docs/reference/**` は生成物(OpenAPI 等)。再生成の結果は別コミットに分けると差分が読みやすい。
 - **秘匿情報(接続文字列・キー・user-secrets / SecureStorage 対象・`appsettings.*.json` の機密)はコミットしない**。`.gitignore` 済みを確認。
 
 ## 提示の型
 ```bash
 git checkout -b feat/inventory-adjust
-git add src/ docs/requirements/REQ-0002.md docs/design/DES-0002.md
+git add src/ docs/requirements/REQ-0002.md
 git commit -m "feat(inventory): 在庫調整 API を追加"
 git push -u origin feat/inventory-adjust
 ```

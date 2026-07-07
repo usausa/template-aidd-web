@@ -1,0 +1,1 @@
+- PM(任意): feature 単位の計画・進捗は `docs/pm/`(`/pm-plan`・`/pm-status`)。WBS / フェーズゲートは使わない。

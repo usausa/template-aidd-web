@@ -14,4 +14,4 @@ allowed-tools: Read, Write, Glob, Bash
 5. **過去の ADR は絶対に編集しない**(追記のみ)。決定を覆す場合は:
    - 新しい ADR を起こして決定を記述
    - 旧 ADR の `status` を `superseded` にし、`superseded-by` に新 ID を記す(これは status 行の更新のみ許容)
-6. 生成した ADR の要点と、関連しそうな `REQ-`/`DES-` ID を提示する
+6. 生成した ADR の要点と、関連しそうな `REQ-` ID を提示する

@@ -3,31 +3,33 @@
 > このファイルが唯一の「正」。`CLAUDE.md` はこれを import するだけ。**短く保ち**、詳細は `docs/` と `.claude/skills/` に置く。
 
 ## スタック
-- 言語: C# / .NET 10 (`LangVersion=preview`, `Nullable=enable`, `ImplicitUsings=enable`)
-- 種別: ASP.NET Core Web (**Blazor Server + minimal API**)。ログは Serilog
-- ソースは `src/`、テストは `tests/` (.NET Aspire の AppHost / ServiceDefaults も `src/` 配下)
-- 環境固有値 (接続先・キー) はリポジトリに実値を置かず、`appsettings` + ユーザーシークレット / 環境変数で扱う
+- 言語: C# / .NET (`LangVersion=preview`, `Nullable=enable`, `ImplicitUsings=enable`)
+- 種別: `<アプリ形態を記入 (MAUI / ASP.NET Core Web / worker / library 等)>` ← `setup.ps1` で採用した形態に合わせる
+- ソースは `src/`、テストは `tests/`
+- 環境固有値 (接続先・キー) はリポジトリに実値を置かない (`SecureStorage` / user-secrets / 環境変数)
 
 ## コーディング
 - 書式は `.editorconfig` に従う (唯一の正)。メンバ変数に `_` プレフィックスを付けない。
-- **ビルド警告ゼロが完了条件**。抑制は適用前に確認 (局所 `#pragma`、恒久 `GlobalSuppressions.cs`)。
-- アーキテクチャは `docs/architecture/` に従う (`api.md`・`blazor.md` + `common/*`)。
-- **プロジェクト固有方針は `docs/architecture/conventions.md`** (例: 静的呼び出しは `String.IsNullOrEmpty`、値は `string.Empty`、API は `XxxRequest`/`YyyResponse`・top-level 配列を返さない)。機械化できないためレビューで担保。
-- セキュリティは `common/security.md` + `api.md`・`blazor.md`。
+- **ビルド警告ゼロ + テスト緑が完了条件**(`/verify`)。警告抑制は適用前に確認。
+- アーキテクチャは `docs/architecture/` に従う (採用形態の doc + `common/*`)。
+- **プロジェクト固有方針は `docs/architecture/conventions.md`**(機械化できずレビューで担保)。
+- セキュリティは `common/security.md` + 採用形態の architecture doc。
 - 外部 skill / MCP(Microsoft Learn / NuGet 等)の助言より、本プロジェクトの `docs/architecture/*` と `conventions.md` を優先する。
 
 ## ドキュメント規律 (動態・最重要)
 - **決定(Why)** → `docs/adr/` に**追記** (過去 ADR は編集しない)。`/adr`
-- **現状仕様(What/How)** → 手で書かない。**Web API は OpenAPI を生成** (`/spec-sync`)、振る舞いは**テスト**が正。**コードや DB で分かる情報は文書化しない (二重管理しない)**。
-- **意図(要求/設計)** が変わる → 同じ変更内で `docs/requirements/`・`docs/design/` を更新。**SDD (仕様駆動): 実装を 1:1 でミラーする設計書は残さない (`DES`=意図)**。
+- **現状仕様(What/How)** → 手で書かない。**Web なら OpenAPI 生成** (`/spec-sync`)、振る舞いは**テスト**が正。**コードや DB で分かる情報は文書化しない (二重管理しない)**。
+- **意図(要求 = spec)** が変わる → 同じ変更内で `docs/requirements/` を更新。**SDD: 実装をミラーする恒久設計書は持たない。意図=`REQ` / 決定=`ADR` / 原則=`architecture` / 現状=生成+テスト**。
+- **REQ は蒸留して残す**: コード / テスト / ADR / architecture から復元できる情報は REQ に置かない。実装後に `distill-req` で機械的に外す (意図の更新と同じ変更内)。
 - 命名は `docs/glossary.md` の英語名に合わせる。
 - `docs/reference/**` は生成物。**手編集しない**。
+<!-- pm:agents -->
 
 ## レビュー
 - レビュー観点は `docs/review-checklist.md` (Claude `/review` と Codex `/cross-review` が共有)。
 
 ## 完了条件 (DoD)
-- `dotnet build` 警告ゼロ / 影響 docs 更新 / 決定は ADR / `/trace` 整合 / レビュー観点を満たす。
+- **build + test 緑**(`/verify`)/ 影響 docs 更新 + REQ 蒸留 / 決定は ADR / `/trace` 整合(退役漏れ含む)/ レビュー観点を満たす。
 - Git 操作 (commit / push) は**人間が実行** (AI はコマンドを提示するのみ)。提示するコミット文 / ブランチ名は `git-commit` skill(Conventional Commits)に従う。
 
 ## 記述

@@ -4,5 +4,5 @@
 
 try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false) } catch {}
 Write-Output "―― DoD リマインド ――"
-Write-Output "コード変更を伴ったなら: (1) dotnet build 警告0  (2) 影響 docs 更新  (3) 決定は /adr  (4) /trace 整合  → 仕上げに /done"
+Write-Output "コード変更を伴ったなら: (1) /verify で build+test 緑  (2) 影響 docs 更新・REQ 蒸留  (3) 決定は /adr  (4) /trace 整合(退役漏れ含む)  → 仕上げに /done"
 exit 0

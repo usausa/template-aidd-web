@@ -1,8 +1,9 @@
-# src (アプリケーション・Aspire の配置先)
+# src (アプリケーションの配置先)
 
-> 現時点でソースは未配置。ここは将来の配置先。実装は `/requirements` → `/design` → 実装 (skill) の流れで作る。
+> 現時点でソースは未配置。ここは将来の配置先。実装は `/requirements` → 実装 (skill) の流れで作る。
+> **採用形態に応じて片方の「想定構成」を使う**(不要な方は削ってよい)。
 
-## 想定構成
+## 想定構成 (Web の場合)
 
 ```
 src/
@@ -11,9 +12,14 @@ src/
   <App>.ServiceDefaults/    Aspire ServiceDefaults (OpenTelemetry / health / resilience / service discovery)
 ```
 
+## 想定構成 (MAUI の場合)
+
+```
+src/
+  <App>/                    MAUI アプリ本体 (View / ViewModel / Usecase / Service / Domain / State)
+```
+
 ## メモ
-- レイヤ構成は `docs/architecture/api.md`。`Program.cs` は薄く、組み立ては `Application/` へ。
-- `<App>.AppHost` は アプリ本体と依存リソース (DB / Redis 等) をオーケストレーションする。
-- `<App>.ServiceDefaults` は アプリ本体から参照し、テレメトリ / ヘルスチェック / 回復性を付与する。
-- 各 `csproj` は root の `Directory.Build.props` から analyzer・`Analyzers.ruleset`・Nullable 等を継承する (個別設定は不要)。
+- レイヤ構成は `docs/architecture/`(採用形態の doc)。上位層は薄く、組み立ては `Application/` / `Usecase/` へ。
+- 各 `csproj` は root の `Directory.Build.props` から analyzer・`Analyzers.ruleset`・Nullable 等を継承する(個別設定は不要)。
 - ソリューションは root の `.slnx`。

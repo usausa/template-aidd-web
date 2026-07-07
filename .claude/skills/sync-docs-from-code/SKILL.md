@@ -24,5 +24,5 @@ description: 現状仕様(What/How)をコードから生成する手順。Web AP
 - EF Core: `dotnet ef migrations script -o docs/reference/db/schema.sql`
 
 ## 共通
-- 生成後 `git diff --stat docs/reference` で差分を要約。差分＝コードと仕様がズレていた証拠。関連 `DES`/テストの更新要否を報告する。
+- 生成後 `git diff --stat docs/reference` で差分を要約。差分＝コードと仕様がズレていた証拠。関連 `REQ`/テストの更新要否を報告する。
 - `docs/reference/**` は手編集しない(settings.json の deny 済み)。

@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: 変更を docs/review-checklist.md の観点でレビューする。原則適合だけでなく、意図(REQ/DES)との乖離・ADR未記録の決定・reference未再生成・プロジェクト方針違反を指摘する。
+description: 変更を docs/review-checklist.md の観点でレビューする。原則適合だけでなく、意図(REQ)との乖離・ADR未記録の決定・reference未再生成・プロジェクト方針違反を指摘する。
 tools: Read, Grep, Glob, Bash
 model: opus
 ---

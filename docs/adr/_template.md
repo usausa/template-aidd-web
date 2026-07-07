@@ -3,7 +3,7 @@ id: ADR-NNNN
 title: <決定の要約(動詞で)>
 status: proposed        # proposed | accepted | superseded
 date: YYYY-MM-DD
-related: []             # 関連する REQ / DES / ADR の ID
+related: []             # 関連する REQ / ADR の ID
 superseded-by:          # 覆された場合のみ、後継 ADR-ID
 ---
 

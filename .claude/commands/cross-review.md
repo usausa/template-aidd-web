@@ -7,7 +7,7 @@ allowed-tools: Bash(git:*), Read, Grep, Glob
 
 1. レビュー対象の変更を確認する (`git diff` 等)。
 2. 次の内容で codex を起動するよう、**人にコマンドを提示**する:
-   - 参照させるもの: `AGENTS.md` (規約)、`docs/review-checklist.md` (観点)、対象の `REQ` / `DES`、変更差分。
+   - 参照させるもの: `AGENTS.md` (規約)、`docs/review-checklist.md` (観点)、対象の `REQ`、変更差分。
    - 例:
      ```
      codex "AGENTS.md と docs/review-checklist.md の観点で直近の変更をレビューして。

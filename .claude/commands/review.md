@@ -7,7 +7,7 @@ allowed-tools: Read, Grep, Glob, Bash
 
 観点:
 1. `docs/architecture/` の原則(レイヤ責務、例外方針、async 規約 等)に反していないか
-2. `REQ-`/`DES-` の**意図**との乖離(＝ドリフト)が無いか
+2. `REQ-` の**意図**との乖離(＝ドリフト)が無いか
 3. 設計上の**決定**が ADR に記録されているか(未記録なら `/adr`)
 4. 公開 API/型を変えたのに `docs/reference` が古くないか(→ `/spec-sync`)
 5. `dotnet build` の警告がゼロか
