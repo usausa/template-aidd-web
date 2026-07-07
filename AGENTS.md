@@ -28,7 +28,7 @@
 
 ## 完了条件 (DoD)
 - `dotnet build` 警告ゼロ / 影響 docs 更新 / 決定は ADR / `/trace` 整合 / レビュー観点を満たす。
-- Git 操作 (commit / push) は**人間が実行** (AI はコマンドを提示するのみ)。
+- Git 操作 (commit / push) は**人間が実行** (AI はコマンドを提示するのみ)。提示するコミット文 / ブランチ名は `git-commit` skill(Conventional Commits)に従う。
 
 ## 記述
 - ドキュメント・コメントは日本語。
