@@ -18,7 +18,7 @@
 ## ドキュメント規律 (動態・最重要)
 - **決定(Why)** → `docs/adr/` に**追記** (過去 ADR は編集しない)。`/adr`
 - **現状仕様(What/How)** → 手で書かない。**Web API は OpenAPI を生成** (`/spec-sync`)、振る舞いは**テスト**が正。**コードや DB で分かる情報は文書化しない (二重管理しない)**。
-- **意図(要求/設計)** が変わる → 同じ変更内で `docs/requirements/`・`docs/design/` を更新。**feature-driven / SDD: 実装を 1:1 でミラーする設計書は残さない (`DES`=意図)**。
+- **意図(要求/設計)** が変わる → 同じ変更内で `docs/requirements/`・`docs/design/` を更新。**SDD (仕様駆動): 実装を 1:1 でミラーする設計書は残さない (`DES`=意図)**。
 - 命名は `docs/glossary.md` の英語名に合わせる。
 - `docs/reference/**` は生成物。**手編集しない**。
 
