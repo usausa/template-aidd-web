@@ -28,6 +28,10 @@
         "hooks": [
           {
             "type": "command",
+            "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/source-normalize.ps1"
+          },
+          {
+            "type": "command",
             "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .claude/hooks/dotnet-verify.ps1"
           }
         ]
