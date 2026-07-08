@@ -14,7 +14,7 @@ description: Blazor の E2E (画面) テストを Playwright で書く手順と 
 3. **アプリ起動 fixture**: 実ブラウザから叩くため in-memory の `TestServer` は使えない。実 Kestrel を立てる。
    - .NET 10+: `WebApplicationFactory<Program>` の Kestrel モード (`UseKestrel()`)。
    - それ以前: fixture で空きポートの Kestrel を起動し BaseAddress をテストへ渡す (または起動済みアプリの URL を環境変数で受ける)。
-4. **テスト作成**: REQ の受け入れ条件 (Given/When/Then) をテスト名に込める (例: `ログイン_失敗5回でロックされる`)。fixture (ホスト・ブラウザ) はクラス / コレクションで共有し、テスト間で状態は共有しない。
+4. **テスト作成**: spec の受け入れ条件 (Given/When/Then) をテスト名に込める (例: `ログイン_失敗5回でロックされる`)。fixture (ホスト・ブラウザ) はクラス / コレクションで共有し、テスト間で状態は共有しない。
 5. **仕上げ**: `/verify` (E2E 含め全テスト緑) → 通常フロー (`/review` → `/done`)。
 
 ## Blazor (interactive server) 固有の要点

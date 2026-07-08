@@ -1,0 +1,1 @@
+- `ADR-NNNN` (決定)。手書き文書は frontmatter (`id` / `status` / `related`)。一時 spec は `work/SPEC-<topic>.md` (連番 ID は使わない)。

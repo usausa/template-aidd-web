@@ -13,4 +13,4 @@ description: Architecture Decision Record(ADR)に何をどう書くか(内容・
   例: 認証方式の選定、DI コンテナの選定、例外を戻り値にする方針、DB を SQLite にした理由。
 - 迷い(trade-off があった判断)は、結論が平凡でも残す価値がある。
 
-作成後、関連する `REQ` の `related` に ADR-ID を追記する。
+作成後、関連する仕様 (spec) の `related` に ADR-ID を追記する。

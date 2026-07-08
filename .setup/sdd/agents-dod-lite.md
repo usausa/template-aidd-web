@@ -1,0 +1,1 @@
+- **build + test 緑**(`dotnet build` + `dotnet test`。Claude は `/verify`)/ 影響 docs 更新 / 決定は ADR / **`work/` が空**(クローズ蒸留済み)/ レビュー観点を満たす。
