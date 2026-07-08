@@ -4,7 +4,7 @@
 #   pwsh ./setup.ps1 -Form maui -PM       # MAUI + PM(プロジェクト管理)を有効化
 #
 #  - 採用しない形態の docs/architecture/*.md を削除。
-#  - PM: `<!-- pm:xxx -->` マーカーへ `.setup/pm-inserts/xxx.md` を挿入(-PM)、または除去(既定)。
+#  - PM: `<!-- pm:xxx -->` マーカーへ `.setup/pm/xxx.md` を挿入(-PM)、または除去(既定)。
 #  - LINT/ビルド設定は全形態の superset。触らない(実プロジェクトのテンプレで置換してよい)。
 param(
     [Parameter(Mandatory = $true)]
@@ -37,7 +37,7 @@ $markers = @{
     'pm:agents'             = 'AGENTS.md'
 }
 $pmCopy = @('docs/pm', '.claude/commands/pm-plan.md', '.claude/commands/pm-status.md', '.claude/agents/pm.md')
-$insertDir = Join-Path $root '.setup/pm-inserts'
+$insertDir = Join-Path $root '.setup/pm'
 
 foreach ($m in $markers.Keys) {
     $file = Join-Path $root $markers[$m]
