@@ -1,6 +1,6 @@
 # 例外・異常系の扱い 【.NET 共通】
 
-> このファイルは .NET 共通の原則。**通知の具体形はアーキ固有** (MVVM=戻り値 / Web=`IResult`+ProblemDetails) なので `maui.md` / `api.md` を参照。
+> このファイルは .NET 共通の原則。**通知の具体形はアーキ固有** (MVVM 系=戻り値 / Web=`IResult`+ProblemDetails) なので採用形態の doc (`mvvm.md` / `api.md`) を参照。
 
 ## 📌 原則
 - **アプリ層の異常系は例外に頼らず結果で通知する**。エラーコードと値が要るならタプル / 専用型。

@@ -1,6 +1,6 @@
 # ログ設計 【.NET 共通】
 
-> このファイルは .NET 共通。**ロガーのプロバイダ / シンクはアーキ固有** (MAUI=Logcat/ファイル, Web=Serilog) なので `maui.md` / `api.md` を参照。
+> このファイルは .NET 共通。**ロガーのプロバイダ / シンクはアーキ固有** (MAUI=Logcat/ファイル・Desktop=ファイル・Web=Serilog) なので採用形態の doc を参照。
 
 - 出力は `ILogger` 経由。自前実装しない。構造化ログを基本とし、文字列連結でなくメッセージテンプレートのプレースホルダを使う。
 - 高速・低アロケーションが要る箇所は `LoggerMessage` source generator を使う。

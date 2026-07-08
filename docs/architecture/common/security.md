@@ -1,6 +1,6 @@
 # セキュリティ標準 (.NET 共通)
 
-> このファイルは .NET 共通の原則。**実装機構はアーキ固有** (MAUI=SecureStorage/権限, Web=ASP.NET Core auth/HTTPS/antiforgery) なので `maui.md` / `api.md` / `blazor.md` を参照。
+> このファイルは .NET 共通の原則。**実装機構はアーキ固有** (MAUI=SecureStorage/権限・Desktop=DPAPI/資格情報・Web=auth/HTTPS/antiforgery) なので採用形態の doc を参照。
 
 ## 📏 基本方針
 - 多層防御 / 最小権限 / デフォルトで安全。

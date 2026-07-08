@@ -1,17 +1,18 @@
 # template-aidd セットアップ: アプリ形態・SDD モード(と任意で PM)を選び、テンプレを確定する。
 # 使い方:
-#   pwsh ./setup.ps1 -Form web                # Web、SDD full、PM なし
-#   pwsh ./setup.ps1 -Form web -Sdd lite      # Web、SDD lite(仕様は work/ の一時物)
+#   pwsh ./setup.ps1 -Form web                # Web(API + Blazor)、SDD full、PM なし
+#   pwsh ./setup.ps1 -Form desktop -Sdd lite  # デスクトップ(WPF)、SDD lite(仕様は work/ の一時物)
 #   pwsh ./setup.ps1 -Form maui -PM           # MAUI + PM(PM は -Sdd full 専用)
 #
-#  - Form: 非採用形態の docs/architecture/*.md と形態固有 skill を削除。
+#  - Form: 系(maui / web / desktop)を選ぶ。非採用系の docs/architecture/*.md と形態固有 skill を削除。
+#          系内の doc(web=web/api/blazor、desktop=mvvm/desktop/wpf[将来 winui])は全部残す(未使用分は手で削ってよい)。
 #  - Sdd:  full=要求(REQ)を恒久化し蒸留 / lite=仕様は work/ の一時物(クローズ蒸留して削除)。
 #          `<!-- sdd:xxx -->` マーカーへ `.setup/sdd/xxx-<full|lite>.md` を挿入し、lite は差分ファイルを配置。
 #  - PM:   `<!-- pm:xxx -->` マーカーへ `.setup/pm/xxx.md` を挿入(-PM)、または除去(既定)。
 #  - LINT/ビルド設定は全形態の superset。触らない(実プロジェクトのテンプレで置換してよい)。
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('maui', 'web')]
+    [ValidateSet('maui', 'web', 'desktop')]
     [string]$Form,
     [ValidateSet('full', 'lite')]
     [string]$Sdd = 'full',
@@ -25,18 +26,22 @@ if ($PM -and ($Sdd -eq 'lite')) {
 $root = $PSScriptRoot
 $arch = Join-Path $root 'docs/architecture'
 
-# --- 1. アプリ形態: 非採用の architecture doc と形態固有 skill を削除 ---
-switch ($Form) {
-    'maui' {
-        Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $arch 'api.md'), (Join-Path $arch 'blazor.md')
-        Remove-Item -Recurse -Force -ErrorAction SilentlyContinue (Join-Path $root '.claude/skills/blazor-playwright')
-        Write-Host "[form=maui] api.md / blazor.md / blazor-playwright skill を削除。maui.md を採用。"
-    }
-    'web' {
-        Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $arch 'maui.md')
-        Write-Host "[form=web] maui.md を削除。api.md / blazor.md を採用。"
-    }
+# --- 1. アプリ形態: 非採用系の architecture doc と形態固有 skill を削除 ---
+$formDocs = @{
+    maui    = @('mvvm.md', 'maui.md')
+    web     = @('web.md', 'api.md', 'blazor.md')
+    desktop = @('mvvm.md', 'desktop.md', 'wpf.md', 'winui.md')   # winui.md は将来追加(ファイルを置くだけで採用される)
 }
+$allFormDocs = $formDocs.Values | ForEach-Object { $_ } | Sort-Object -Unique
+foreach ($doc in ($allFormDocs | Where-Object { $_ -notin $formDocs[$Form] })) {
+    Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $arch $doc)
+}
+if ($Form -ne 'web') {
+    # Web 固有 skill は Web 系以外で削除
+    Remove-Item -Recurse -Force -ErrorAction SilentlyContinue (Join-Path $root '.claude/skills/blazor-playwright')
+}
+$adopted = $formDocs[$Form] | Where-Object { Test-Path (Join-Path $arch $_) }
+Write-Host "[form=$Form] 採用 doc: $($adopted -join ' / ')。非採用系の doc$(if ($Form -ne 'web') { ' と blazor-playwright skill' }) を削除。"
 
 # --- 2. SDD: マーカーへ full|lite の差分を挿入し、lite は差分ファイルを配置 ---
 $sddMarkers = @{
@@ -128,6 +133,6 @@ Remove-Item -Recurse -Force -ErrorAction SilentlyContinue (Join-Path $root '.set
 Write-Host ""
 Write-Host "次の手順:"
 Write-Host " 1. AGENTS.md の『スタック』節を $Form 用に記入。"
-Write-Host " 2. LINT/ビルド設定は superset(Settings.XamlStyler は MAUI 用)。実プロジェクトのテンプレで置換してよい。"
+Write-Host " 2. LINT/ビルド設定は superset(Settings.XamlStyler は XAML 系 = MAUI/Desktop 用)。実プロジェクトのテンプレで置換してよい。"
 Write-Host " 3. docs/architecture/README.md 等の未採用形態の記述は削ってよい。web で Blazor を使わない(API のみ)場合は docs/architecture/blazor.md と .claude/skills/blazor-playwright/ も削除。"
 Write-Host " 4. 始め方・使い方は README.md(入口。導入後は自プロジェクトの README に置換/削除可)。回し方の正は docs/guides/workflow.md、契約は docs/README.md。"

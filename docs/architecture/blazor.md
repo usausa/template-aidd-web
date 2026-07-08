@@ -1,6 +1,6 @@
 # Blazor Server (UI / コンポーネント) 【Web 固有】
 
-> ASP.NET Core Web の **Blazor Server UI** 固有。API は [`api.md`](api.md)、.NET 共通は [`common/`](common/) を参照。
+> ASP.NET Core Web の **Blazor Server UI** 固有。Web 全般は [`web.md`](web.md)、API は [`api.md`](api.md)、.NET 共通は [`common/`](common/) を参照。
 
 ## 🚀 セットアップ
 - `AddRazorComponents().AddInteractiveServerComponents()` / `MapRazorComponents<App>().AddInteractiveServerRenderMode()`。

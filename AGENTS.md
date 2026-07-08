@@ -4,7 +4,7 @@
 
 ## スタック
 - 言語: C# / .NET (`LangVersion=preview`, `Nullable=enable`, `ImplicitUsings=enable`)
-- 種別: `<アプリ形態を記入 (MAUI / ASP.NET Core Web / worker / library 等)>` ← `setup.ps1` で採用した形態に合わせる
+- 種別: `<アプリ形態を記入 (MAUI / ASP.NET Core Web / Desktop(WPF) / worker / library 等)>` ← `setup.ps1` で採用した形態に合わせる
 - ソースは `src/`、テストは `tests/`
 - 環境固有値 (接続先・キー) はリポジトリに実値を置かない (`SecureStorage` / user-secrets / 環境変数)
 

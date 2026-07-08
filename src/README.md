@@ -1,7 +1,7 @@
 # src (アプリケーションの配置先)
 
 > 現時点でソースは未配置。ここは将来の配置先。実装は仕様 (spec) を起点に skill の流れで作る。
-> **採用形態に応じて片方の「想定構成」を使う**(不要な方は削ってよい)。
+> **採用形態に応じて該当の「想定構成」を使う**(不要なものは削ってよい)。
 
 ## 想定構成 (Web の場合)
 
@@ -17,6 +17,13 @@ src/
 ```
 src/
   <App>/                    MAUI アプリ本体 (View / ViewModel / Usecase / Service / Domain / State)
+```
+
+## 想定構成 (Desktop の場合)
+
+```
+src/
+  <App>/                    WPF アプリ本体 (View / ViewModel / Usecase / Service / Domain / State)
 ```
 
 ## メモ
