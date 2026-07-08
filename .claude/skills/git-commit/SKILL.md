@@ -3,7 +3,7 @@ name: git-commit
 description: Git のコミットメッセージ / ブランチ命名 / ステージング単位の規約(Conventional Commits)。commit・push・ブランチ作成のコマンドを人に提示する時に使う。
 ---
 
-# Git 提示の規約(AI は提示・実行は人)
+# Git 提示の規約
 
 > このプロジェクトは **AI が git コマンドを提示し、人が実行**する(`AGENTS.md`)。提示する文面・ブランチ名・コミット単位をここで規約化する。
 
@@ -27,7 +27,6 @@ git add src/ docs/requirements/REQ-0002.md
 git commit -m "feat(inventory): 在庫調整 API を追加"
 git push -u origin feat/inventory-adjust
 ```
-実行は人。AI はこの提示までを行う。
 
 ## 機械強制したい場合(任意)
 - .NET の定番は **Husky.Net**: `commit-msg` フックで Conventional Commits を正規表現検証、`pre-commit` で `${staged}` に `dotnet format`。`dotnet tool` + `task-runner.json` で設定する。

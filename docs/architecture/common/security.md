@@ -26,4 +26,4 @@
 - 通信は TLS。証明書検証を無効化しない。
 
 ## 📌 OWASP
-- OWASP Top 10 を意識し、レビュー観点 (`docs/review-checklist.md`) にも反映する。
+- OWASP Top 10 を意識する。

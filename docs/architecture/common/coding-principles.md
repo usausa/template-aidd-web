@@ -12,7 +12,7 @@
 - 汎用処理はヘルパー / ユーティリティへ。ただしアプリ・ドメイン固有の共通処理は Domain へ。
 
 ## 📌 ビルド / 品質
-- ビルド警告ゼロが完了条件。合わないルールは `Analyzers.ruleset` で緩める (=「ルールは緩めるが警告は 0」)。
+- ビルド警告ゼロが完了条件。合わないルールは `Analyzers.ruleset` で緩める。
 - 局所抑制は `#pragma warning disable/restore` (範囲を最小に)、恒久は `GlobalSuppressions.cs`。適用前に人へ確認。
 
 ## 🧪 テストを仕様として書く

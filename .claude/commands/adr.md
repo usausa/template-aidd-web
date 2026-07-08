@@ -7,7 +7,7 @@ allowed-tools: Read, Write, Glob, Bash
 `docs/adr/` に新しい Architecture Decision Record を**追記**する。
 
 手順:
-1. `docs/adr/*.md` を Glob し、既存の最大連番 +1 を採番(例: 最大 `0007` → `0008`)
+1. `docs/adr/*.md` を Glob し、既存の最大連番 +1 を採番
 2. `docs/adr/_template.md` を雛形に、`$ARGUMENTS` をタイトルとして `NNNN-<kebab-title>.md` を作成
 3. 本文の「背景 / 決定 / 検討した代替案 / 結果(トレードオフ)」を、直近の会話・変更内容から具体的に埋める
 4. `docs/adr/index.md` に 1 行追記

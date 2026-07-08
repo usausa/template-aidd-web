@@ -16,4 +16,3 @@ allowed-tools: Bash(git:*), Read, Grep, Glob
 3. Codex の指摘と Claude reviewer の指摘を突き合わせ、Critical が残る限り完了としない。
 
 - Codex の endpoint / キーは各自の環境設定に委ねる (テンプレートにハードコードしない)。
-- レビュー観点は Claude reviewer と共有 (`docs/review-checklist.md` が単一の基準)。

@@ -31,7 +31,6 @@ description: Blazor の E2E (画面) テストを Playwright で書く手順と 
 - CSS クラス・DOM 構造依存のセレクタ (→ `data-testid` / role)
 - テスト間の実行順・状態への依存 (→ テストごとに独立したデータ / コンテキスト)
 
-## 参考 (深掘り用。本プロジェクトの docs が優先)
+## 参考 (深掘り用)
 
 - [Aaronontheweb/dotnet-skills: playwright-blazor](https://github.com/Aaronontheweb/dotnet-skills/blob/master/skills/playwright-blazor/SKILL.md) (MIT) — 認証 (cookie 注入・OAuth モック)・SignalR リアルタイム更新・スクリーンショット・CI の詳細パターン。必要時に参照。
-- Playwright API の詳細は Microsoft Learn MCP で確認する。
