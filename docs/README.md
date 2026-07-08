@@ -22,7 +22,6 @@
 - **SDD**: 実装をミラーする恒久設計書は持たない。意図=`REQ` / 決定=`ADR` / 原則=`architecture` / 現状=生成+テスト。
 - **一時物は残さない**: 実装プラン / チェックリスト(タスク)は実装完了後に破棄。
 - **退役**: 機能削除で `REQ`=`status: retired`・`ADR`=`superseded`。`/trace` が退役漏れを検出、`/done` が 0 を要求。
-- `reference/**` は生成物。編集しない(`settings.json` の deny)。
 
 ## 📌 ID 体系
 - `REQ-NNNN` (要求) / `ADR-NNNN` (決定)。手書き文書は frontmatter (`id` / `status` / `related`)。

@@ -1,11 +1,11 @@
 ---
 name: sync-docs-from-code
-description: 現状仕様(What/How)をコードから生成する手順。Web API は OpenAPI、DB はスキーマダンプ。公開APIや型を変えた後、docs/reference を最新化するときに使う。
+description: docs/reference 生成(Web API=OpenAPI・任意で DB スキーマ)の初期導入と CI ドリフト検知の設定手順。OpenAPI 生成が未導入のとき、CI に組み込むときに使う。
 ---
 
-# コードから docs/reference を生成する
+# docs/reference 生成の導入(初回セットアップと CI)
 
-**原則: 現状仕様は手で書かない。ズレようがない生成物にする。**
+**原則: 現状仕様は手で書かない。ズレようがない生成物にする。** 再生成の実行手順は `/spec-sync` が正。ここは**未導入時のセットアップと CI 連携**のみ。
 
 ## Web API → OpenAPI(`Microsoft.AspNetCore.OpenApi`, .NET 10 内蔵)
 - アプリに登録:
@@ -13,16 +13,9 @@ description: 現状仕様(What/How)をコードから生成する手順。Web AP
   builder.Services.AddOpenApi();
   app.MapOpenApi();            // 開発時に /openapi/v1.json を公開
   ```
-- `docs/reference/api/openapi.json` へ出力する方法(いずれか):
-  - **ビルド時生成**: `Microsoft.Extensions.ApiDescription.Server` を参照し
-    `<OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>` を設定 → build 時に JSON 生成 → `docs/reference/api/` へコピー。
-  - **起動して取得**: アプリ起動後 `curl http://localhost:<port>/openapi/v1.json -o docs/reference/api/openapi.json`。
-  - **NSwag CLI**: `nswag run`。
-- CI では生成後に `git diff --exit-code docs/reference` を実行し、差分が出たら失敗させる(ドリフト検知)。
+- ビルド時生成にする場合: `Microsoft.Extensions.ApiDescription.Server` を参照し
+  `<OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>` を設定 → build 時に JSON 生成 → `docs/reference/api/` へコピー。
+- 代替: アプリ起動後に `/openapi/v1.json` を取得、または NSwag CLI(`nswag run`)。
 
-## DB → スキーマ(任意)
-- EF Core: `dotnet ef migrations script -o docs/reference/db/schema.sql`
-
-## 共通
-- 生成後 `git diff --stat docs/reference` で差分を要約。差分＝コードと仕様がズレていた証拠。関連 `REQ`/テストの更新要否を報告する。
-- `docs/reference/**` は手編集しない(settings.json の deny 済み)。
+## CI(ドリフト検知)
+- CI では生成後に `git diff --exit-code docs/reference` を実行し、差分が出たら失敗させる(手編集・古い状態を物理的に禁止)。

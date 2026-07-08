@@ -13,6 +13,3 @@
 ## 📌 再throw の作法
 - ログ出力だけして握りつぶさない。スタックトレースを潰さない。
 - 一部条件だけ処理して再throw する場合は **`throw;`** (`throw ex;` にしない)。
-
-## 📌 解析警告の抑制
-- 局所は `#pragma warning disable/restore` (範囲を最小に)、恒久は `GlobalSuppressions.cs`。**適用前に人へ確認** (警告0が原則)。

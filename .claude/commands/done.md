@@ -14,4 +14,4 @@ allowed-tools: Bash(dotnet:*), Read, Grep, Glob
 
 最後に:
 - 「今回の変更で影響を受ける docs」チェックリスト
-- 人間が実行する git コマンド案 (commit / push は人間が実行。AI は提示のみ)
+- 人間が実行する git コマンド案

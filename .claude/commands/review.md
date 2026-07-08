@@ -5,11 +5,5 @@ allowed-tools: Read, Grep, Glob, Bash
 
 `reviewer` サブエージェントに、現在の変更のレビューを依頼する。
 
-観点:
-1. `docs/architecture/` の原則(レイヤ責務、例外方針、async 規約 等)に反していないか
-2. `REQ-` の**意図**との乖離(＝ドリフト)が無いか
-3. 設計上の**決定**が ADR に記録されているか(未記録なら `/adr`)
-4. 公開 API/型を変えたのに `docs/reference` が古くないか(→ `/spec-sync`)
-5. `dotnet build` の警告がゼロか
-
-指摘は Critical / Major / Minor に分類し、各指摘に対応する次アクション(コマンド)を併記させる。
+- 観点は `docs/review-checklist.md` が単一の基準(ここに複製しない)。
+- 結果(Critical / Major / Minor の指摘と、各指摘の次アクション)を受け取り、人に提示する。

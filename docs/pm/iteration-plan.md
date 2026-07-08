@@ -1,7 +1,6 @@
 # イテレーション計画 (feature 単位)
 
-> feature (機能単位。1 feature ≒ 1 REQ) をイテレーションにまとめる計画。**WBS / フェーズゲートは使わない**。
-> `/pm-plan` で生成・更新する。
+> feature をイテレーションにまとめる計画。`/pm-plan` で生成・更新する (方針は [README.md](README.md) が正)。
 
 ## 🏁 Iteration 1 — <ゴールの一言>
 

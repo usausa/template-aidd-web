@@ -45,7 +45,7 @@ private static IResult HandleGet(string id, FileStorageService storage)
 - リクエスト / レスポンスの型は `XxxRequest` / `YyyResponse` と命名する。
 - **レスポンスは必ず専用の `YyyResponse` を用意し、トップレベルで配列を返さない** (将来の項目追加・メタ情報付与のためオブジェクトでラップする)。
 - ルートは `Application/ApiRoutes.cs` に定数化する。
-- ※ これらは機械化できないため、[`conventions.md`](conventions.md) に明文化しレビューで担保する。
+- ※ これらは機械化できないため、レビューで担保する (観点は [`../review-checklist.md`](../review-checklist.md))。
 
 ## 🛑 異常系の具体 ([common/errors.md](common/errors.md) の実装)
 - API は例外でなく `IResult`。予期せぬ例外は `AddProblemDetails()` + `UseExceptionHandler()` でグローバル処理 (RFC 7807)。

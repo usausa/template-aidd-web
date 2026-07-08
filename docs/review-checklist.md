@@ -8,9 +8,7 @@
 - .NET 共通原則 (`common/*`) に反していないか。
 
 ## 📏 2. プロジェクト方針
-- `docs/architecture/conventions.md` の方針に沿っているか。
-  - 例: 静的呼び出しは BCL 型 (`String.IsNullOrEmpty`)、値はキーワード (`string.Empty`)。
-  - 例 (Web): リクエスト / レスポンスは `XxxRequest` / `YyyResponse`、トップレベルで配列を返さない。
+- `docs/architecture/conventions.md` の方針に沿っているか (具体例はそちらが正。ここに複製しない)。
 
 ## 📌 3. 意図との整合と蒸留
 - 実装が `REQ` の意図に一致しているか (不一致は「ドリフト」として報告)。

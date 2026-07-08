@@ -7,4 +7,4 @@ allowed-tools: Read, Grep, Glob, Write
 
 - `docs/requirements`・`docs/adr`・`tests/`・`docs/traceability/index.md` を走査。
 - feature ごとに `REQ` / `ADR` / 実装 / テスト の有無を集計し、`docs/pm/progress.md` を更新。
-- 現状仕様は生成物 / コードが正。ここは進捗のみ (二重管理しない)。
+- 方針は `docs/pm/README.md` が正。

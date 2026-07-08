@@ -8,7 +8,4 @@ allowed-tools: Read, Grep, Glob, Write
 
 $ARGUMENTS
 
-- `docs/requirements/_template.md` の様式で `REQ-NNNN-<title>.md` を作成(採番は既存最大 +1)
-- 目的/背景・利用者・受け入れ条件(Given/When/Then)・非機能要件を埋める
-- **曖昧点は勝手に決めず、質問として列挙**する
-- 完了後、作成した `REQ-ID` と未決事項を提示し、人の承認を求める
+作成様式・進め方はサブエージェント定義(`agents/requirements.md`)のとおり。完了後、作成された `REQ-ID` と未決事項を人に提示し、承認を求める。

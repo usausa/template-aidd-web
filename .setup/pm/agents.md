@@ -1,1 +1,1 @@
-- PM(任意): feature 単位の計画・進捗は `docs/pm/`(`/pm-plan`・`/pm-status`)。WBS / フェーズゲートは使わない。
+- PM(任意): feature 単位の計画・進捗は `docs/pm/`(`/pm-plan`・`/pm-status`。方針は `docs/pm/README.md`)。
