@@ -23,5 +23,5 @@ tests/
 ## メモ
 - 受け入れ条件 (REQ の Given/When/Then) をテスト名に込める。例: `アップロード_サイズ超過で400を返す`。
 - 結合は Web=`Microsoft.AspNetCore.Mvc.Testing` の `WebApplicationFactory<Program>`。UI / E2E (Playwright / Appium) は端末・ブラウザ依存なので、ロジックは下位層に寄せてユニットテスト可能にする。
-- Blazor の E2E (Playwright) の手順・固有の注意点は `playwright-blazor` skill (`.claude/skills/playwright-blazor/`) に従う。
+- Blazor の E2E (Playwright) の手順・固有の注意点は `blazor-playwright` skill (`.claude/skills/blazor-playwright/`) に従う。
 - テストプロジェクトも root の `Directory.Build.props` を継承する。

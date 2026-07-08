@@ -1,5 +1,5 @@
 ---
-name: playwright-blazor
+name: blazor-playwright
 description: Blazor の E2E (画面) テストを Playwright で書く手順と Blazor 固有の注意点。E2E テスト・画面テスト・ブラウザテストの追加、tests/<App>.E2ETests の新設のときに使う。
 ---
 
