@@ -84,6 +84,19 @@ Check (-not (Test-Path "$t\docs\architecture\api.md")) 'T4 api.md 削除'
 Check (-not (Test-Path "$t\.claude\skills\blazor-playwright")) 'T4 blazor-playwright 削除'
 Check (Test-Path "$t\docs\requirements\_template.md") 'T4 requirements 残存 (full)'
 
+# --- T6: worker + full ---
+Write-Host "== T6: -Form worker =="
+$t = Fresh 't6-worker-full'
+& (Join-Path $t 'setup.ps1') -Form worker | Out-Null
+Check ((LeftoverCount $t) -eq 0) 'T6 マーカー/保守ブロック残存 0'
+Check (Test-Path "$t\docs\architecture\worker.md") 'T6 worker.md 残存'
+Check (-not (Test-Path "$t\docs\architecture\mvvm.md")) 'T6 mvvm.md 削除'
+Check (-not (Test-Path "$t\docs\architecture\web.md")) 'T6 web.md 削除'
+Check (-not (Test-Path "$t\docs\architecture\api.md")) 'T6 api.md 削除'
+Check (-not (Test-Path "$t\docs\architecture\desktop.md")) 'T6 desktop.md 削除'
+Check (-not (Test-Path "$t\.claude\skills\blazor-playwright")) 'T6 blazor-playwright 削除'
+Check (Test-Path "$t\docs\requirements\_template.md") 'T6 requirements 残存 (full)'
+
 # --- T5: lite + PM はエラー ---
 Write-Host "== T5: -Sdd lite -PM => error =="
 $t = Fresh 't5-lite-pm'

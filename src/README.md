@@ -26,6 +26,13 @@ src/
   <App>/                    WPF アプリ本体 (View / ViewModel / Usecase / Service / Domain / State)
 ```
 
+## 想定構成 (Worker の場合)
+
+```
+src/
+  <App>/                    Worker Service 本体 (Worker / Usecase / Service / Domain)  [Microsoft.NET.Sdk.Worker]
+```
+
 ## メモ
 - レイヤ構成は `docs/architecture/`(採用形態の doc)。上位層は薄く、組み立ては `Application/` / `Usecase/` へ。
 - 各 `csproj` は root の `Directory.Build.props` から analyzer・`Analyzers.ruleset`・Nullable 等を継承する(個別設定は不要)。

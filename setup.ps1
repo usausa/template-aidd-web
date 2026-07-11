@@ -4,7 +4,7 @@
 #   pwsh ./setup.ps1 -Form desktop -Sdd lite  # デスクトップ(WPF)、SDD lite(仕様は work/ の一時物)
 #   pwsh ./setup.ps1 -Form maui -PM           # MAUI + PM(PM は -Sdd full 専用)
 #
-#  - Form: 系(maui / web / desktop)を選ぶ。非採用系の docs/architecture/*.md と形態固有 skill を削除。
+#  - Form: 系(maui / web / desktop / worker)を選ぶ。非採用系の docs/architecture/*.md と形態固有 skill を削除。
 #          系内の doc(web=web/api/blazor、desktop=mvvm/desktop/wpf[将来 winui])は全部残す(未使用分は手で削ってよい)。
 #  - Sdd:  full=要求(REQ)を恒久化し蒸留 / lite=仕様は work/ の一時物(クローズ蒸留して削除)。
 #          `<!-- sdd:xxx -->` マーカーへ `.setup/sdd/xxx-<full|lite>.md` を挿入し、lite は差分ファイルを配置。
@@ -12,7 +12,7 @@
 #  - LINT/ビルド設定は全形態の superset。触らない(実プロジェクトのテンプレで置換してよい)。
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('maui', 'web', 'desktop')]
+    [ValidateSet('maui', 'web', 'desktop', 'worker')]
     [string]$Form,
     [ValidateSet('full', 'lite')]
     [string]$Sdd = 'full',
@@ -31,6 +31,7 @@ $formDocs = @{
     maui    = @('mvvm.md', 'maui.md')
     web     = @('web.md', 'api.md', 'blazor.md')
     desktop = @('mvvm.md', 'desktop.md', 'wpf.md', 'winui.md')   # winui.md は将来追加(ファイルを置くだけで採用される)
+    worker  = @('worker.md')
 }
 $allFormDocs = $formDocs.Values | ForEach-Object { $_ } | Sort-Object -Unique
 foreach ($doc in ($allFormDocs | Where-Object { $_ -notin $formDocs[$Form] })) {

@@ -28,6 +28,14 @@ tests/
   <App>.UITests/     UI (E2E) テスト (FlaUI 等)。任意
 ```
 
+## 想定構成 (Worker の場合)
+
+```
+tests/
+  <App>.UnitTests/          xUnit 単体テスト (Usecase / Service / Domain。Worker は薄いので下位層で担保)
+  <App>.IntegrationTests/   Generic Host ベースの結合テスト。任意
+```
+
 ## メモ
 - 受け入れ条件 (spec の Given/When/Then) をテスト名に込める。例: `アップロード_サイズ超過で400を返す`。
 - 結合は Web=`Microsoft.AspNetCore.Mvc.Testing` の `WebApplicationFactory<Program>`。UI / E2E (Playwright / Appium / FlaUI) は端末・ブラウザ依存なので、ロジックは下位層に寄せてユニットテスト可能にする。

@@ -61,7 +61,7 @@ template-aidd/
 │                          write-adr/sync-docs-from-code/git-commit/distill-req(または spec-close)
 ├─ docs/
 │  ├─ README.md           [契約] 寿命・永続化の正
-│  ├─ architecture/       [原則] 系の全般 + 技術固有の 2 層(mvvm/maui/desktop/wpf | web/api/blazor)+ common/*
+│  ├─ architecture/       [原則] 系の全般 + 技術固有の 2 層(mvvm/maui/desktop/wpf | web/api/blazor | worker)+ common/*
 │  ├─ requirements/       [意図] REQ(full のみ。lite は work/ の一時 SPEC)
 │  ├─ adr/                [決定] 追記のみ・不変
 │  ├─ reference/          [現状仕様] 生成・手編集 deny

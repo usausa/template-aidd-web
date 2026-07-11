@@ -41,3 +41,5 @@
 - [backlog.md](backlog.md) — 未決の検討事項(TODO)
 - [design.md](design.md) — 設計解説(構造と Claude 機構・GitHub Spec Kit 比較)
 - [test-setup.ps1](test-setup.ps1) — `setup.ps1` の回帰テスト
+- [refactor-lite-base.md](refactor-lite-base.md) — lite 基層化リファクタの方針書(実装ハンドオフ用・未実装)
+- [command-map.md](command-map.md) — lite 基層化後のコマンド/エージェント/スキル最終形リファレンス
