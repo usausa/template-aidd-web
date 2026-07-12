@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+# SDD: 一時 spec / plan 置き場(クローズ時に削除)
+work/*
+!work/README.md
+
 # User-specific files
 *.rsuser
 *.suo

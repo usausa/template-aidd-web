@@ -7,10 +7,10 @@ allowed-tools: Bash(dotnet:*), Read, Grep, Glob
 
 1. **ビルド警告ゼロ + テスト緑**か  →  !`dotnet build`  →  !`dotnet test`  (= `/verify`)
 2. 公開 API / 型に変更があるか。あれば `docs/reference` が再生成済みか (要なら `/reference`)
-3. **設計上の決定**をしたか。したなら該当 ADR が追記されているか (要なら `/adr`)
-4. SPEC の**受け入れ条件がテスト名に反映**されているか (SPEC 削除後はテストが恒久の受け皿)
-5. **レビュー観点** (`docs/review-checklist.md`) を満たすか (`/review`、必要なら Codex で `/review-cross`)
-6. **クローズ蒸留**: 対象機能の `work/` の SPEC / PLAN を `spec-close` の手順で移して**削除**したか (`work/` に仕掛かりが残っていないか)
+3. この変更は**意図** (SPEC) を変えるか。変えるなら更新 + **蒸留**済みか (`spec-close`。復元可能な情報が SPEC に残っていないか・`work/` の PLAN を削除済みか)
+4. **設計上の決定**をしたか。したなら該当 ADR が追記されているか (要なら `/adr`)
+5. トレーサビリティ整合 (`/trace`)。**退役漏れ**が無いか (機能削除に伴う SPEC/ADR の `status` 未更新・退役候補が 0 か)
+6. **レビュー観点** (`docs/review-checklist.md`) を満たすか (`/review`、必要なら Codex で `/review-cross`)
 
 最後に:
 - 「今回の変更で影響を受ける docs」チェックリスト

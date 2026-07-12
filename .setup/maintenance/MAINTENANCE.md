@@ -21,9 +21,9 @@
 |---|---|---|
 | form 削除 | `setup.ps1` の `$formDocs` | 系ごとの採用 doc リスト。**winui.md は登録済み**(ファイルを置くだけで採用される) |
 | Web 固有 skill | `setup.ps1` | `blazor-playwright` は web 以外の form で削除 |
-| SDD マーカー | `<!-- sdd:xxx -->` × 9(AGENTS / docs/README / README / review-checklist / csharp-layered-feature) | `.setup/sdd/xxx-{full,lite}.md` の変種を挿入(常にどちらかが入る) |
-| SDD lite 差分 | `.setup/sdd/lite/`(リポジトリのミラーツリー) | lite 時に配置。`workflow.md` / `done.md` は**上書き** |
-| PM マーカー | `<!-- pm:xxx -->` × 4 | `-PM` で `.setup/pm/` から挿入、既定は除去 |
+| SDD ブロック | `<!-- sdd:xxx:start/end -->` × 9(AGENTS / docs/README / README / review-checklist / csharp-layered-feature) | **base は lite 本文をインライン保持**。lite=マーカー行のみ除去 / full=ブロックを `.setup/sdd/xxx-full.md` で置換 |
+| SDD full 加算 | `.setup/sdd/full/`(リポジトリのミラーツリー) | full / full-pm 時に配置。spec・spec-close・done・workflow・work は**上書き**、trace・docs/spec・traceability は**追加** |
+| PM マーカー | `<!-- pm:xxx -->` × 4 | `-Sdd full-pm` で `.setup/pm/` から挿入、それ以外は除去 |
 | 保守ブロック | `<!-- template-dev:start/end -->`(AGENTS.md / README.md) | setup が節ごと除去(原本専用の記述はここに書く) |
 | 常時ロード | `CLAUDE.md` = `@AGENTS.md` の 1 行のみ | 固有メモを足さない(AGENTS が正) |
 
@@ -32,7 +32,8 @@
 1. 変更する(上の原則に従う)。**決定を伴うなら [decisions.md](decisions.md) に追記**、保留・未決は [backlog.md](backlog.md) へ(確定したら backlog から消して decisions へ)。
 2. **検証**: `pwsh .setup/maintenance/test-setup.ps1` — form × SDD × PM の全シナリオで、マーカー解決・ファイル配置/削除・保守痕跡ゼロを確認する。**ALL PASS が完了条件**。
 3. マーカー・オプション・form を増やしたら、`test-setup.ps1` にチェックを追加する。
-4. コミットは Conventional Commits(`.claude/skills/git-commit/` 準拠)。commit / push は人が実行。
+4. `docs/reference/**` は deny で保護されている。保守で修正が必要なときは `settings.json` の deny を**一時解除 → 修正 → 即復元**する(生成物ガードは恒久維持)。
+5. コミットは Conventional Commits(`.claude/skills/git-commit/` 準拠)。commit / push は人が実行。
 
 ## 📁 このディレクトリの構成
 

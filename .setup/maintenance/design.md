@@ -29,14 +29,14 @@
 
 ### 「1機能を追加する」ときに何が発火するか(SDD full の例)
 
-1. `/requirements`(command)→ `requirements`(subagent)が REQ 草案 → 人が承認。
-2. 決定があれば `/adr`(command)が採番・追記、`write-adr`(skill)が内容・粒度を導く。
-3. 実装依頼(自然文)→ `csharp-layered-feature`(skill 自動ロード)がレイヤ順を強制。編集のたびに hook(`source-normalize`=UTF-8/CRLF、`dotnet-verify`=format)が走る。
-4. `/verify`(command)→ `!dotnet build` / `!dotnet test` を実行して緑を確認。
-5. `/spec-sync`(command)→ `docs/reference` を再生成。`reference/**` は permission deny で手編集不可。
-6. 意図が変われば `distill-req`(skill)で REQ を蒸留。
-7. `/review` + `/cross-review` → `reviewer`(subagent)/ Codex が `review-checklist` で審査。
-8. `/done`(command)→ DoD ゲート。応答終了で hook(`done-check`)がリマインド。
+1. `/spec`(command)→ `spec`(subagent)が SPEC 草案(`docs/spec/SPEC-NNNN`。lite は `work/SPEC-*`)→ 人が承認。
+2. `/plan`(command)→ `work/PLAN-*.md` にチェックリスト(全レベルで一時物)→ 人が承認。
+3. 決定があれば `/adr`(command)が採番・追記、`adr-guide`(skill)が内容・粒度を導く。
+4. `/impl`(command)→ `csharp-layered-feature`(skill 自動ロード)がレイヤ順を強制。編集のたびに hook(`source-normalize`=UTF-8/CRLF、`dotnet-verify`=format)が走る。
+5. `/verify`(command)→ `!dotnet build` / `!dotnet test` を実行して緑を確認。
+6. `/reference`(command)→ `docs/reference` を再生成。`reference/**` は permission deny で手編集不可。
+7. `/review` + `/review-cross` → `reviewer`(subagent)/ Codex が `review-checklist` で審査。
+8. `/done`(command)→ DoD ゲート + `spec-close`(skill。full=蒸留して残す / lite=蒸留して削除)。応答終了で hook(`done-check`)がリマインド。
 9. commit は `git-commit`(skill)の規約で AI が提示、`git push` は permission ask で人が実行。
 
 ### リポジトリ構造(注釈つき)
@@ -46,23 +46,24 @@ template-aidd/
 ├─ CLAUDE.md              [常時ロード] @AGENTS.md を import するだけ
 ├─ AGENTS.md              [常時ロード] 規約の"正"(SDD/DoD/git。末尾に原本専用の保守ブロック)
 ├─ README.md              [人向け・非依存] 入口。導入後は置換/削除可
-├─ setup.ps1              [セットアップ] -Form maui|web|desktop [-Sdd full|lite] [-PM]
-├─ .setup/                [原本専用] sdd/pm 差分スニペット + maintenance/(保守メモリ)。setup 後に削除
+├─ setup.ps1              [セットアップ] -Form maui|web|desktop|worker [-Sdd lite|full|full-pm]
+├─ .setup/                [原本専用] sdd full ステージ + pm 差分 + maintenance/(保守メモリ)。setup 後に削除
+├─ work/                  [一時] SPEC(lite)と PLAN(全レベル)の置き場。README 以外は gitignore
 ├─ .mcp.json              [MCP] microsoft-learn(http)+ nuget(dnx)
 ├─ .editorconfig / Directory.Build.{props,targets} / Analyzers.ruleset /
 │  Settings.XamlStyler / App.slnx                          [LINT/ビルド superset]
 ├─ .claude/
 │  ├─ settings.json       [権限+hooks] deny(reference手編集)/ ask(git push)/ hooks 登録
 │  ├─ hooks/              [PostToolUse] source-normalize / dotnet-verify、[Stop] done-check
-│  ├─ commands/           [人が /呼ぶ] requirements(または spec/plan)/adr/verify/spec-sync/
-│  │                       review/cross-review/trace/done (+ pm-plan/pm-status)
-│  ├─ agents/             [委譲] requirements(または spec)/reviewer/doc-sync (+ pm)
+│  ├─ commands/           [人が /呼ぶ] ループ定常段 = spec/plan/impl/verify/review/review-cross/done、
+│  │                       オンデマンド = adr/reference (+ full: trace / full-pm: pm-plan・pm-status)
+│  ├─ agents/             [委譲] spec/reviewer/doc-sync (+ pm)
 │  └─ skills/             [自動ロード] csharp-layered-feature/blazor-playwright/
-│                          write-adr/sync-docs-from-code/git-commit/distill-req(または spec-close)
+│                          adr-guide/sync-docs-from-code/git-commit/spec-close
 ├─ docs/
 │  ├─ README.md           [契約] 寿命・永続化の正
 │  ├─ architecture/       [原則] 系の全般 + 技術固有の 2 層(mvvm/maui/desktop/wpf | web/api/blazor | worker)+ common/*
-│  ├─ requirements/       [意図] REQ(full のみ。lite は work/ の一時 SPEC)
+│  ├─ spec/               [意図] SPEC(full のみ。lite は work/ の一時 SPEC)
 │  ├─ adr/                [決定] 追記のみ・不変
 │  ├─ reference/          [現状仕様] 生成・手編集 deny
 │  ├─ glossary.md / review-checklist.md / traceability/(full のみ)
@@ -79,8 +80,8 @@ template-aidd/
 | GitHub Spec Kit | template-aidd | 備考 |
 |---|---|---|
 | `constitution.md`(不可侵の原則) | `docs/architecture/*` + `conventions.md` + `docs/adr/` | 原則=architecture、決定=ADR(追記式)、方針=conventions に分割 |
-| `spec.md`(何を・なぜ) | `docs/requirements/REQ-*`(full)/ `work/SPEC-*`(lite) | ほぼ同じ役割 |
-| `/speckit.clarify`(曖昧さ解消) | `/requirements`・`/spec` の「未決事項(質問)」 | 要求段階に内包 |
+| `spec.md`(何を・なぜ) | `docs/spec/SPEC-*`(full)/ `work/SPEC-*`(lite) | ほぼ同じ役割 |
+| `/speckit.clarify`(曖昧さ解消) | `/spec` の「未決事項(質問)」 | 要求段階に内包 |
 | `plan.md`(技術プラン) | Plan モード(full)/ `work/PLAN-*`(lite) | **Spec Kit は永続ファイル / template-aidd は一時物** |
 | `tasks.md`(タスク分解) | タスクリスト / PLAN のチェックリスト | 同上: 永続 vs 一時(実装後に破棄) |
 | `/speckit.implement` | 実装(`csharp-layered-feature` skill) | フェーズ実装 + 段階レビュー |

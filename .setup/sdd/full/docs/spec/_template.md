@@ -1,6 +1,6 @@
 ---
-id: REQ-NNNN
-title: <要求の要約>
+id: SPEC-NNNN
+title: <仕様の要約>
 status: draft          # draft | accepted | superseded | retired
 related: []            # 関連 ADR
 ---

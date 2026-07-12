@@ -10,10 +10,9 @@
 
 ## 🚀 始め方(セットアップ)
 1. clone / コピーし、ルート名・ソリューション名を自プロジェクトへ。
-2. **形態を確定**: `pwsh ./setup.ps1 -Form maui|web|desktop|worker [-Sdd full|lite] [-PM]`
+2. **形態を確定**: `pwsh ./setup.ps1 -Form maui|web|desktop|worker [-Sdd lite|full|full-pm]`
    - `-Form` = アプリ形態の系(非採用系の `docs/architecture/*.md` と形態固有 skill を削除)。web=API+Blazor、desktop=WPF(将来 WinUI)、worker=常駐サービス。系内の未使用 doc は手で削ってよい。
-   - `-Sdd` = SDD モード(既定 `full`)。`full`=要求(REQ)を恒久化し蒸留 / `lite`=仕様は `work/` の一時物(完了時にクローズ蒸留して削除)。
-   - `-PM` = プロジェクト管理(feature 単位の計画/進捗)を有効化(`-Sdd full` 専用。未指定なら PM ファイルとマーカーを削除)。
+   - `-Sdd` = SDD レベル(既定 `full`。**lite ⊂ full ⊂ full-pm の加算**)。`lite`=SPEC は `work/` の一時物(完了時にクローズ蒸留して削除)/ `full`=SPEC を恒久化し蒸留(+`/trace`)/ `full-pm`=full + PM(feature 単位の計画・進捗)。
 3. `AGENTS.md` の「スタック」節を採用形態に記入。
 4. LINT / ビルド設定(`.editorconfig` / `Directory.Build.props` / `Analyzers.ruleset` / `Settings.XamlStyler`[MAUI])は**全形態の superset**。実プロジェクトのテンプレで置換してよい。
 5. ソースを配置(詳細 `src/README.md` / `tests/README.md`):
@@ -22,10 +21,22 @@
    - **Desktop**: `src/<App>/`(WPF、MVVM)。テスト `UnitTests`(+ 任意 `UITests`)。
    - **Worker**: `src/<App>/`(Worker Service、常駐)。テスト `UnitTests`(+ 任意 `IntegrationTests`)。
 6. Claude Code 設定(`.claude/settings.json`)確認。PowerShell フックに `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`。MCP(`.mcp.json` = Microsoft Learn + NuGet)は初回承認、NuGet は .NET 10 SDK の `dnx` が必要。
-<!-- sdd:readme-start -->
+<!-- sdd:readme-start:start -->
+7. 最初の仕様を `/spec <アイディアの箇条書き>` で作る。
+<!-- sdd:readme-start:end -->
 
 ## 🔄 使い方(開発ループ)
-<!-- sdd:readme-loop -->
+<!-- sdd:readme-loop:start -->
+```
+/spec(箇条書き→仕様草案)→ 人がレビュー & 修正指示 → 承認
+  → /plan(チェックリスト。大きければフェーズ分割)→ 承認
+  → /impl(フェーズ実装 + チェック更新 + フェーズ末 /verify)
+  → PostToolUse フックで dotnet format 検証(逆フィードバック)
+  → /reference(Web=OpenAPI 再生成)→ /review + /review-cross(Codex)
+  → /done(DoD + クローズ蒸留 → work/ の SPEC / PLAN を削除)→ 人間が git commit
+```
+- 仕様とプランは **`work/` の一時物**(git 管理外)。恒久に残るのは 決定=ADR / 用語=glossary / 受け入れ条件=テスト名。
+<!-- sdd:readme-loop:end -->
 - **各段の具体プロンプト(コピペ可)とコマンド早見表**は `docs/guides/workflow.md`(正はそちら)。
 
 ## 📁 ファイルの役割(`.claude` = 動かす仕組み)
@@ -66,4 +77,4 @@
 ## 🔗 リンク
 - 各段の具体プロンプト: `docs/guides/workflow.md`
 - アーキ原則: `docs/architecture/`(採用形態の doc + `common/*`)
-- PM(`setup.ps1 -PM` で有効化。`-Sdd full` 専用)を使うと `/pm-plan`・`/pm-status` で feature の計画・進捗
+- PM(`setup.ps1 -Sdd full-pm` で有効化)を使うと `/pm-plan`・`/pm-status` で feature の計画・進捗

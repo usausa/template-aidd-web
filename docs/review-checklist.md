@@ -10,13 +10,17 @@
 ## 📏 2. プロジェクト方針
 - `docs/architecture/conventions.md` の方針に沿っているか (具体例はそちらが正)。
 
-<!-- sdd:review-intent -->
+<!-- sdd:review-intent:start -->
+## 📌 3. 意図との整合
+- 実装が `work/` の SPEC の意図・スコープに一致しているか (不一致は「ドリフト」として報告)。
+- **受け入れ条件がテスト名に反映されているか** (SPEC はクローズ時に削除されるため、テストが恒久の受け皿)。
+<!-- sdd:review-intent:end -->
 
 ## 🧭 4. 決定の記録
 - 設計上の決定をしたのに ADR が無い、を検出する (→ `/adr`)。
 
 ## 📌 5. 現状仕様の鮮度
-- 公開 API / 型 / スキーマを変えたのに `docs/reference` (OpenAPI 等) が古い (→ `/spec-sync`)。
+- 公開 API / 型 / スキーマを変えたのに `docs/reference` (OpenAPI 等) が古い (→ `/reference`)。
 
 ## 🔐 6. セキュリティ
 - `common/security.md` とアーキ固有のセキュリティ観点 (秘匿情報・入力検証・認証認可・通信) を満たすか。

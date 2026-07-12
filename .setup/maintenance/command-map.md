@@ -1,8 +1,8 @@
 # 最終形リファレンス: コマンド / エージェント / スキル体系
 
 > lite 基層化後の**目標状態のみ**(旧記述は含まない)。層 = 基層(lite) ⊂ +full ⊂ +PM。
-> 変更の意図・移行・影響は [refactor-lite-base.md](refactor-lite-base.md)。**未実装**(本書は設計リファレンス)。
-> 値名・パラメータ名の一部は TBD(`full` / `full-pm`、`-Sdd`)。
+> 変更の意図・移行・影響は [refactor-lite-base.md](refactor-lite-base.md)。**実装済み(2026-07)**(本書は最終形リファレンス)。
+> 値名・パラメータ名は `-Sdd lite|full|full-pm`(既定 `full`)で確定。
 
 ## 🧱 基層(lite) — 常に存在
 

@@ -29,4 +29,4 @@ private static IResult HandleGet(string id, FileStorageService storage)
 
 ## 🔌 OpenAPI (現状仕様の生成)
 - `Microsoft.AspNetCore.OpenApi` (.NET 10 内蔵): `AddOpenApi()` / `MapOpenApi()`。
-- 仕様書は手で書かず、`/spec-sync` で `docs/reference/api/openapi.json` に生成する。エンドポイントに `.WithName()` / `.Produces<T>()` を付けて意味ある OpenAPI にする。
+- 仕様書は手で書かず、`/reference` で `docs/reference/api/openapi.json` に生成する。エンドポイントに `.WithName()` / `.Produces<T>()` を付けて意味ある OpenAPI にする。

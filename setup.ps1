@@ -1,30 +1,28 @@
-# template-aidd セットアップ: アプリ形態・SDD モード(と任意で PM)を選び、テンプレを確定する。
+# template-aidd セットアップ: アプリ形態と SDD レベルを選び、テンプレを確定する。
 # 使い方:
-#   pwsh ./setup.ps1 -Form web                # Web(API + Blazor)、SDD full、PM なし
-#   pwsh ./setup.ps1 -Form desktop -Sdd lite  # デスクトップ(WPF)、SDD lite(仕様は work/ の一時物)
-#   pwsh ./setup.ps1 -Form maui -PM           # MAUI + PM(PM は -Sdd full 専用)
+#   pwsh ./setup.ps1 -Form web                 # Web、SDD full(既定)
+#   pwsh ./setup.ps1 -Form desktop -Sdd lite   # デスクトップ、lite(SPEC は work/ の一時物)
+#   pwsh ./setup.ps1 -Form maui -Sdd full-pm   # MAUI、full + PM
 #
-#  - Form: 系(maui / web / desktop / worker)を選ぶ。非採用系の docs/architecture/*.md と形態固有 skill を削除。
-#          系内の doc(web=web/api/blazor、desktop=mvvm/desktop/wpf[将来 winui])は全部残す(未使用分は手で削ってよい)。
-#  - Sdd:  full=要求(REQ)を恒久化し蒸留 / lite=仕様は work/ の一時物(クローズ蒸留して削除)。
-#          `<!-- sdd:xxx -->` マーカーへ `.setup/sdd/xxx-<full|lite>.md` を挿入し、lite は差分ファイルを配置。
-#  - PM:   `<!-- pm:xxx -->` マーカーへ `.setup/pm/xxx.md` を挿入(-PM)、または除去(既定)。
+#  - Form: 系(maui / web / desktop / worker)。非採用系の docs/architecture/*.md と形態固有 skill を削除。
+#  - Sdd:  SDD レベル(単一の排他選択。lite ⊂ full ⊂ full-pm の加算)。
+#          base(このリポジトリの素の状態)= lite。full は `.setup/sdd/full/` のファイル加算
+#          (恒久 SPEC・spec-close 残す版・/trace・traceability)と `<!-- sdd:xxx:start/end -->`
+#          ブロックの full 版置換。full-pm はさらに PM 層(`.setup/pm/`)を加算する。
 #  - LINT/ビルド設定は全形態の superset。触らない(実プロジェクトのテンプレで置換してよい)。
 param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('maui', 'web', 'desktop', 'worker')]
     [string]$Form,
-    [ValidateSet('full', 'lite')]
-    [string]$Sdd = 'full',
-    [switch]$PM
+    [ValidateSet('lite', 'full', 'full-pm')]
+    [string]$Sdd = 'full'
 )
 
 $ErrorActionPreference = 'Stop'
-if ($PM -and ($Sdd -eq 'lite')) {
-    throw "-PM は -Sdd full 専用です(lite は要求を恒久化しないため、feature 単位(1 feature ≒ 1 REQ)の PM が成立しません)。"
-}
 $root = $PSScriptRoot
 $arch = Join-Path $root 'docs/architecture'
+$isFull = $Sdd -ne 'lite'
+$isPm = $Sdd -eq 'full-pm'
 
 # --- 1. アプリ形態: 非採用系の architecture doc と形態固有 skill を削除 ---
 $formDocs = @{
@@ -44,58 +42,49 @@ if ($Form -ne 'web') {
 $adopted = $formDocs[$Form] | Where-Object { Test-Path (Join-Path $arch $_) }
 Write-Host "[form=$Form] 採用 doc: $($adopted -join ' / ')。非採用系の doc$(if ($Form -ne 'web') { ' と blazor-playwright skill' }) を削除。"
 
-# --- 2. SDD: マーカーへ full|lite の差分を挿入し、lite は差分ファイルを配置 ---
-$sddMarkers = @{
-    'sdd:agents-intent'    = 'AGENTS.md'
-    'sdd:agents-dod'       = 'AGENTS.md'
-    'sdd:lifespan-spec'    = 'docs/README.md'
-    'sdd:principle-retire' = 'docs/README.md'
-    'sdd:principle-id'     = 'docs/README.md'
-    'sdd:readme-start'     = 'README.md'
-    'sdd:readme-loop'      = 'README.md'
-    'sdd:review-intent'    = 'docs/review-checklist.md'
-    'sdd:skill-flow'       = '.claude/skills/csharp-layered-feature/SKILL.md'
-}
+# --- 2. SDD: base(lite)に full 層を加算、または lite のまま確定 ---
 $sddDir = Join-Path $root '.setup/sdd'
+$sddFiles = @('AGENTS.md', 'README.md', 'docs/README.md', 'docs/review-checklist.md', '.claude/skills/csharp-layered-feature/SKILL.md')
 
-foreach ($m in $sddMarkers.Keys) {
-    $file = Join-Path $root $sddMarkers[$m]
-    if (-not (Test-Path $file)) { continue }
-    $token = "<!-- $m -->"
-    $text = Get-Content -Raw $file
-    if (-not $text.Contains($token)) { continue }
-    $snippet = (Get-Content -Raw (Join-Path $sddDir (($m -replace '^sdd:', '') + "-$Sdd.md"))).TrimEnd("`r", "`n")
-    Set-Content -NoNewline -Path $file -Value $text.Replace($token, $snippet)
-}
+if ($isFull) {
+    # ブロックを full 版へ置換
+    foreach ($f in $sddFiles) {
+        $file = Join-Path $root $f
+        if (-not (Test-Path $file)) { continue }
+        $text = Get-Content -Raw $file
+        $blockMatches = [regex]::Matches($text, '<!-- sdd:([a-z-]+):start -->')
+        foreach ($m in $blockMatches) {
+            $name = $m.Groups[1].Value
+            $snippet = (Get-Content -Raw (Join-Path $sddDir "$name-full.md")).TrimEnd("`r", "`n")
+            $pattern = "(?s)<!-- sdd:$name`:start -->.*?<!-- sdd:$name`:end -->"
+            $text = [regex]::Replace($text, $pattern, $snippet.Replace('$', '$$'))
+        }
+        Set-Content -NoNewline -Path $file -Value $text
+    }
 
-if ($Sdd -eq 'lite') {
-    # full 専用(REQ 恒久化・蒸留・トレーサビリティ)を削除
-    $fullOnly = @(
-        'docs/requirements', 'docs/traceability',
-        '.claude/commands/requirements.md', '.claude/commands/trace.md',
-        '.claude/skills/distill-req', '.claude/agents/requirements.md'
-    )
-    foreach ($p in $fullOnly) { Remove-Item -Recurse -Force -ErrorAction SilentlyContinue (Join-Path $root $p) }
-
-    # lite 差分ファイルを配置(workflow.md / done.md は上書き)
-    $liteDir = Join-Path $sddDir 'lite'
-    Get-ChildItem -Path $liteDir -Recurse -File -Force | ForEach-Object {
-        $rel = $_.FullName.Substring($liteDir.Length + 1)
+    # full 層のファイルを加算(spec / spec-close / done / workflow / work は上書き、trace / docs/spec / traceability は追加)
+    $fullDir = Join-Path $sddDir 'full'
+    Get-ChildItem -Path $fullDir -Recurse -File -Force | ForEach-Object {
+        $rel = $_.FullName.Substring($fullDir.Length + 1)
         $dest = Join-Path $root $rel
         New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
         Copy-Item -Force $_.FullName $dest
     }
-
-    # 一時 spec / plan を git 管理外に(README のみ残す)
-    Add-Content -Path (Join-Path $root '.gitignore') -Value "`n# SDD lite: 一時 spec / plan(クローズ蒸留して削除)`nwork/*`n!work/README.md"
-
-    Write-Host "[sdd=lite] 仕様は work/ の一時物。requirements / traceability / trace / distill-req を削除し、spec / plan / spec-close を配置。"
+    Write-Host "[sdd=$Sdd] full 層を加算: SPEC 恒久化(docs/spec)・spec-close(残す版)・/trace・traceability。"
 }
 else {
-    Write-Host "[sdd=full] 要求(REQ)を恒久化(実装後に蒸留)。"
+    # lite: ブロックマーカー行のみ除去(lite 本文はインラインのまま残る)
+    foreach ($f in $sddFiles) {
+        $file = Join-Path $root $f
+        if (-not (Test-Path $file)) { continue }
+        $text = Get-Content -Raw $file
+        $new = $text -replace '(?m)^[ \t]*<!-- sdd:[a-z-]+:(start|end) -->\r?\n?', ''
+        if ($new -ne $text) { Set-Content -NoNewline -Path $file -Value $new }
+    }
+    Write-Host "[sdd=lite] 基層のまま確定: SPEC は work/ の一時物(クローズ蒸留して削除)。"
 }
 
-# --- 3. PM: マーカーへ差分を挿入(-PM) / 除去(既定) ---
+# --- 3. PM 層(full-pm のみ): マーカーへ差分を挿入 / 除去 ---
 $markers = @{
     'pm:readme-lifespan'    = 'docs/README.md'
     'pm:guide-claude'       = 'README.md'
@@ -110,7 +99,7 @@ foreach ($m in $markers.Keys) {
     if (-not (Test-Path $file)) { continue }
     $token = "<!-- $m -->"
     $text = Get-Content -Raw $file
-    if ($PM) {
+    if ($isPm) {
         $snippet = (Get-Content -Raw (Join-Path $insertDir (($m -replace '^pm:', '') + '.md'))).TrimEnd("`r", "`n")
         $text = $text.Replace($token, $snippet)
     }
@@ -120,12 +109,12 @@ foreach ($m in $markers.Keys) {
     Set-Content -NoNewline -Path $file -Value $text
 }
 
-if ($PM) {
-    Write-Host "[PM=on] pm-plan / pm-status / pm エージェント / docs/pm を採用。差分を挿入。"
+if ($isPm) {
+    Write-Host "[pm=on] pm-plan / pm-status / pm エージェント / docs/pm を採用。差分を挿入。"
 }
 else {
     foreach ($p in $pmCopy) { Remove-Item -Recurse -Force -ErrorAction SilentlyContinue (Join-Path $root $p) }
-    Write-Host "[PM=off] PM 関連ファイルとマーカーを削除。"
+    Write-Host "[pm=off] PM 関連ファイルとマーカーを削除。"
 }
 
 # --- 4. テンプレ保守ブロック(原本専用)とセットアップ用ステージング(.setup)を削除 ---

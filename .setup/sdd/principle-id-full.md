@@ -1,1 +1,1 @@
-- `REQ-NNNN` (要求) / `ADR-NNNN` (決定)。手書き文書は frontmatter (`id` / `status` / `related`)。
+- `SPEC-NNNN` (仕様) / `ADR-NNNN` (決定)。手書き文書は frontmatter (`id` / `status` / `related`)。

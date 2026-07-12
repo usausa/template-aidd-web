@@ -11,4 +11,4 @@ allowed-tools: Bash(dotnet:*), Bash(curl:*), Read, Glob
    - 未導入なら導入手順を提示する(`sync-docs-from-code` スキル参照)。
 2. **DB(任意)**: `dotnet ef migrations script` 等で `docs/reference/db/` にスキーマを出力。
 3. 生成前後で `git diff --stat docs/reference` を確認し、変わった箇所を要約。
-4. 差分が出た = コードと仕様がズレていた、ということ。関連する `docs/requirements/`・テストの更新要否を指摘する。
+4. 差分が出た = コードと仕様がズレていた、ということ。関連する SPEC・テストの更新要否を指摘する。

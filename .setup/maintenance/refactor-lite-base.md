@@ -2,7 +2,7 @@
 
 > 位置づけ: 本書は**意図と改修方針**であり、実装手順(プラン)は含まない。実装エージェントは本書を入力に手順を起こす。
 > 併読: 最終形の一覧は [command-map.md](command-map.md)。保守原則は [MAINTENANCE.md](MAINTENANCE.md)、確定方針は [decisions.md](decisions.md)、未決は [backlog.md](backlog.md)。
-> 状態: 方針は人が承認済み(下記「確定した判断」)。**未実装**。
+> 状態: **実装済み(2026-07)**。本書は経緯の記録。TBD だった値名・パラメータ名は **`-Sdd lite|full|full-pm`(既定 full)** で確定(実装の正は [decisions.md](decisions.md))。
 
 ## 🎯 目的(一言)
 

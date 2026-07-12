@@ -4,7 +4,7 @@
 
 ## 🚧 一覧
 
-- **REQ(機能単位)に何を残すか** — 「非復元の意図だけ残す」基準は確定済み。恒久的に持たせる中身の線引きは実運用で確定する
+- **SPEC(機能単位)に何を残すか** — 「非復元の意図だけ残す」基準は確定済み。恒久的に持たせる中身の線引きは実運用で確定する(full の distill-in-place 対象)
 - **SDD lite の実運用検証** — lite(仕様の一時化)は実装済み・未検証。クローズ蒸留の精度と既定(full)の妥当性を実運用で確認
 - **lite の ceremony の厚み** — Spec Kit の `/clarify` / `/analyze` / 独立 `/tasks` 相当を lite は「未決事項 + 人レビュー」に畳んでいる。複雑機能で前捌きが薄くないか
 - **`/done` クローズ蒸留の安全網** — 「テスト/ADR/glossary のどれにも載らず消える意図はないか」の確認を close に足すか(蒸留の情報損失リスク対策)
@@ -17,17 +17,17 @@
 - **検討事項の運用の Issues 化** — 複数人・複数 AI 体制になったら、この backlog の起票・クローズを GitHub Issues に移す選択肢
 - **その他** — CPM(`Directory.Packages.props`)採用可否 / 旧参考資料の削除可否 / 汎用プロンプト集 / nested AGENTS.md / org での AGENTS.md 必須化
 
-## 未決: REQ(機能単位)に何を残すか
+## 未決: SPEC(機能単位)に何を残すか
 
-- **論点**: 「残す価値のあるものは `ADR` / `architecture` / コード + テストへ寄せる」方針は固まったが、**機能単位(REQ)に恒久的に何を持たせるべきかが未確定**。
+- **論点**: 「残す価値のあるものは `ADR` / `architecture` / コード + テストへ寄せる」方針は固まったが、**機能単位(SPEC)に恒久的に何を持たせるべきかが未確定**(full の distill-in-place の線引き)。
 - 候補: 要求・受け入れ条件・スコープ・非機能要件・前提 / 制約 のうち、**コードから復元できないものだけを最小限**。
-- 当面: REQ テンプレは最小のまま運用し、実運用で「後から効いた情報 / 腐った情報」を観察して確定する。
+- 当面: SPEC テンプレは最小のまま運用し、実運用で「後から効いた情報 / 腐った情報」を観察して確定する。
 
 ## 検討: SDD lite の実運用検証
 
 - **経緯**: 旧「Agile + ADR への更なる簡素化」案は **`setup.ps1 -Sdd lite` として実装済み**(2026-07。[decisions.md](decisions.md) 参照)。
 - **未: 実運用検証**: lite を実プロジェクトで回し、(1) クローズ蒸留で意図が十分残るか(ADR の「背景」で足りるか)、(2) テスト名 = 受け入れ条件の規律が維持できるか、(3) full に戻したくなるケースは何か、を観察。結果次第で既定(full)を見直す。
-- **未: lite での PM 代替**: lite は `-PM` 不可。必要になったら SPEC 名 / ブランチ単位の軽量な進捗管理を検討。
+- **未: lite での PM 代替**: PM は full 前提の加算層(`-Sdd full-pm`)で、lite には無い。必要になったら SPEC 名 / ブランチ単位の軽量な進捗管理を検討。
 
 ## 検討: lite の ceremony の厚み
 
@@ -65,7 +65,7 @@
 
 ## 検討: 二重管理の刈り込みの残項目
 
-- **未: doc-sync agent の役割整理**: /spec-sync command が手順を直接持ち、doc-sync agent はどこからも呼ばれていない。command から agent へ委譲に一本化するか、agent を廃止するか。
+- **未: doc-sync agent の役割整理**: /reference command が手順を直接持ち、doc-sync agent はどこからも呼ばれていない。command から agent へ委譲に一本化するか、agent を廃止するか。
 - **未: README のセットアップ記述の検証**: 「PowerShell フックに `CLAUDE_CODE_USE_POWERSHELL_TOOL=1`」(README 始め方 6) — hooks は powershell.exe を直接起動するため不要の可能性。実機で要否を確認し修正 or 削除。
 
 ## 検討: Aaronontheweb/dotnet-skills の扱い
